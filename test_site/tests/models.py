@@ -1,5 +1,8 @@
 from django.db import models
 
-class MyModel(models.Model):
-    name = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
+class Test(models.Model):
+    name = models.CharField(max_length=200)
+
+class Question(models.Model):
+    test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
