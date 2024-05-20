@@ -14,7 +14,7 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Psychotest
+              Vite + React
             </Typography>
             <Button color="inherit" href="/login">Login</Button>
             <Button color="inherit" href="/tests">Tests</Button>

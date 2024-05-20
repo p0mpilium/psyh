@@ -1,8 +1,10 @@
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
+@csrf_exempt
 @api_view(['POST'])
 def register(request):
     username = request.data.get('username')
@@ -12,6 +14,7 @@ def register(request):
         return Response({'status': 'User created'}, status=201)
     return Response({'error': 'Invalid data'}, status=400)
 
+@csrf_exempt
 @api_view(['POST'])
 def user_login(request):
     username = request.data.get('username')
