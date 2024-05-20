@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tests',
 ]
 
 MIDDLEWARE = [
@@ -77,9 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db',
-        'USER': 'userZ',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': 'Jkolka1F!',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }

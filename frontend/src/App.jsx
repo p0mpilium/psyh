@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material';
+import TestList from './components/TestList';
+import TestDetail from './components/TestDetail';
+import Login from './components/Login';
+import Home from './components/Home';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Psychotest
+            </Typography>
+            <Button color="inherit" href="/login">Login</Button>
+            <Button color="inherit" href="/tests">Tests</Button>
+            <Button color="inherit" href="/">Home</Button>
+          </Toolbar>
+        </AppBar>
+        <Container>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/tests" element={<TestList />} />
+            <Route path="/tests/:id" element={<TestDetail />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Container>
+      </Box>
+    </Router>
+  );
 }
 
-export default App
+export default App;
