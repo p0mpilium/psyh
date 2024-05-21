@@ -1,43 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Switch, FormControlLabel } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
-  const [csrfToken, setCsrfToken] = useState('');
-
-  useEffect(() => {
-    // Получение CSRF токена из cookie
-    const getCsrfToken = () => {
-      const name = 'csrftoken';
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    };
-    setCsrfToken(getCsrfToken());
-  }, []);
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const url = isRegister ? '/api/register' : '/api/login';
+    const url = isRegister ? '/api/register' : '/api/token/';
     const data = { username, password };
 
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken,  // Добавление CSRF токена в заголовок
       },
-      credentials: 'include',  // Включение cookie в запрос
       body: JSON.stringify(data),
     })
       .then(response => response.json())
       .then(data => {
-        if (data.status === 'User created' || data.status === 'Login successful') {
-          navigate('/tests');  // Перенаправление на страницу тестов
+        if (data.access) {
+          localStorage.setItem('token', data.access);
+          const redirectPath = location.state?.test ? `/tests/${location.state.test}` : '/tests';
+          navigate(redirectPath);
         } else {
           console.error('Error:', data);
         }

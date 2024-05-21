@@ -1,12 +1,31 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Home = () => (
-  <Box sx={{ textAlign: 'center', mt: 4 }}>
-    <Typography variant="h4" gutterBottom>Welcome to the Test App</Typography>
-    <Button variant="contained" color="primary" href="/login" sx={{ m: 1 }}>Логин</Button>
-    <Button variant="contained" color="secondary" href="/tests" sx={{ m: 1 }}>Осмотреть тесты</Button>
-  </Box>
-);
+const Home = () => {
+  const navigate = useNavigate();
+
+  const handleTestClick = (test) => {
+    const isAuthenticated = localStorage.getItem('token');
+    if (!isAuthenticated) {
+      navigate('/login', { state: { test } });
+    } else {
+      navigate(`/tests/${test}`);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Available Tests</h2>
+      <ul>
+        <li>
+          <button onClick={() => handleTestClick('test1')}>Test 1</button>
+        </li>
+        <li>
+          <button onClick={() => handleTestClick('test2')}>Test 2</button>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 export default Home;
